@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102a43">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>LIFT LINE — Climb the Pecking Order</title>
+  <meta name="description" content="Race up the ski-lift pecking order in this fast 3–4 player climbing card game from Btown Games.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LIFT LINE — Climb the Pecking Order">
+  <meta property="og:description" content="Shed your hand, claim First Chair, and leave somebody on the T-Bar.">
+  <meta property="og:url" content="https://play.btownbrief.com/lift-line/">
+  <meta property="og:image" content="https://play.btownbrief.com/lift-line/icon-180.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://play.btownbrief.com/lift-line/icon-180.png">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app">
+  <section id="menu" class="screen">
+    <div class="ridge" aria-hidden="true"></div>
+    <div class="menu-inner">
+      <div class="summit-tag">A BURLINGTON CARD CLIMB</div>
+      <h1><span>LIFT</span><span>LINE</span></h1>
+      <div class="cable-logo" aria-hidden="true"><i></i><b>▰</b><i></i><b>▰</b><i></i></div>
+      <p class="tagline">Shed your hand. Climb the pecking order.<br><strong>First to 7 owns the mountain.</strong></p>
+
+      <div class="mode-stack">
+        <div class="mode-setup">
+          <button id="practiceBtn" class="big-btn">🎿 PRACTICE RUN</button>
+          <div id="practiceCount" class="count-pick hidden">
+            <span>RIDERS IN LINE</span>
+            <button data-practice="3">3</button><button data-practice="4">4</button>
+          </div>
+          <small>Liftie Lou + Patrol fill the other seats</small>
+        </div>
+        <div class="mode-setup">
+          <button id="passPlayBtn" class="mode-btn">📱 PASS &amp; PLAY</button>
+          <div id="passCount" class="count-pick hidden">
+            <span>RIDERS IN LINE</span>
+            <button data-pass="3">3</button><button data-pass="4">4</button>
+          </div>
+          <small>one phone · private handoffs</small>
+        </div>
+        <div class="online-wrap">
+          <div class="online-label">OR RIDE ACROSS TOWN · 3–4 PHONES</div>
+          <div class="online-row">
+            <button id="hostBtn" class="mode-btn">🏔 START A CREW<small>get a code</small></button>
+            <button id="joinBtn" class="mode-btn">🔑 JOIN A CREW<small>bring a code</small></button>
+          </div>
+          <button id="rejoinBtn" class="chip-btn hidden"></button>
+        </div>
+      </div>
+      <button id="helpBtn" class="text-btn">HOW TO RIDE ↗</button>
+    </div>
+    <footer>A Btown Games production · <a href="https://play.btownbrief.com/">More games →</a> · <a href="https://www.btownbrief.com">Read the BTown Brief →</a></footer>
+
+    <div id="onlinePanel" class="overlay hidden">
+      <div class="panel-card">
+        <button id="opCancel" class="close-btn" aria-label="Close">×</button>
+        <div id="opTitle" class="panel-kicker">START A CREW</div>
+        <label for="opName">YOUR TRAIL NAME</label>
+        <input id="opName" maxlength="24" autocomplete="nickname" placeholder="Powder hound">
+        <div id="opSeatsWrap">
+          <label>PHONES IN LINE</label>
+          <div id="opSeats" class="seat-btns" role="group" aria-label="Phones in line">
+            <button class="seat-btn selected" data-seats="3" aria-pressed="true">3</button>
+            <button class="seat-btn" data-seats="4" aria-pressed="false">4</button>
+          </div>
+        </div>
+        <div id="opCodeWrap" class="hidden">
+          <label for="opCode">CREW CODE</label>
+          <input id="opCode" maxlength="4" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="ABCD">
+        </div>
+        <div id="opError" class="error hidden"></div>
+        <button id="opGo" class="big-btn">GET A CODE</button>
+      </div>
+    </div>
+
+    <div id="lobby" class="overlay hidden">
+      <div class="panel-card lobby-card">
+        <div class="panel-kicker">YOUR LIFT TICKET</div>
+        <div id="lobbyCode">ABCD</div>
+        <p>Share it. The gate opens when every seat arrives.</p>
+        <button id="inviteBtn" class="big-btn invite-btn">📲 SEND AN INVITE</button>
+        <div class="waiting-label">NOW IN LINE</div>
+        <ul id="lobbyNames" aria-live="polite"></ul>
+        <button id="lobbyCancel" class="chip-btn">CANCEL CREW</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="handoff" class="screen hidden">
+    <div class="handoff-card">
+      <div class="ticket-stub">PRIVATE LIFT TICKET</div>
+      <div class="handoff-icon">🥽</div>
+      <h2 id="handoffTitle">Pass to Rider 1</h2>
+      <p>No peeking. Face downhill until they tap in.</p>
+      <button id="handoffBtn" class="big-btn">SHOW MY HAND</button>
+    </div>
+  </section>
+
+  <section id="game" class="hidden">
+    <div class="game-sky" aria-hidden="true"><div class="sun"></div><div class="mountain one"></div><div class="mountain two"></div></div>
+    <header class="game-head">
+      <button id="homeBtn" class="round-btn" aria-label="Back to lodge">⌂</button>
+      <div><b id="roundLabel">ROUND 1</b><span>FIRST TO 7</span></div>
+      <button id="gameHelpBtn" class="round-btn" aria-label="How to play">?</button>
+    </header>
+    <div id="riders" class="riders"></div>
+    <div class="cable"><span></span><i>▰</i><span></span><i>▰</i><span></span></div>
+
+    <section class="pile-zone">
+      <div class="pile-label">THE RUN</div>
+      <div id="pile" class="pile empty"><div id="pileCards"></div><span id="pileEmpty">LEAD<br>ANY SET</span></div>
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="hand-zone">
+      <div class="hand-meta"><span id="handLabel">YOUR HAND</span><span id="selectionLabel"></span></div>
+      <div id="hand" class="hand"></div>
+      <div class="actions">
+        <button id="passBtn" class="chip-btn hidden">PASS</button>
+        <button id="playBtn" class="big-btn" disabled>PLAY SET</button>
+      </div>
+    </section>
+
+    <div id="roundPanel" class="overlay hidden">
+      <div class="panel-card result-card">
+        <div class="panel-kicker">THE LIFT HAS SPOKEN</div>
+        <h2 id="roundTitle">FIRST CHAIR!</h2>
+        <ol id="standings"></ol>
+        <button id="nextRoundBtn" class="big-btn">DEAL THE NEXT RUN</button>
+        <p id="roundWait" class="hidden">First Chair is dealing the next run…</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="help" class="overlay hidden">
+    <div class="panel-card help-card">
+      <button id="helpClose" class="close-btn" aria-label="Close">×</button>
+      <div class="panel-kicker">HOW TO RIDE</div>
+      <h2>Climb. Shed. Repeat.</h2>
+      <ol>
+        <li><b>Lead any set:</b> a single, pair, triple, or quad of one rank.</li>
+        <li>Follow with the <b>same number</b> of cards at a strictly higher rank, or pass.</li>
+        <li>When everyone passes, the pile clears and the last rider to lay leads fresh.</li>
+        <li><b>2s are highest</b> and clear the pile immediately.</li>
+        <li>First out is <b>First Chair</b>; last out lands on the <b>T-Bar</b>.</li>
+      </ol>
+      <div class="exchange-note"><b>Next round:</b> T-Bar gives First Chair their best card. First Chair returns any one card.</div>
+      <p class="score-note">First Chair scores 2. Chairlift scores 1. First to 7 wins the mountain.</p>
+    </div>
+  </div>
+</main>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
